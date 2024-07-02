@@ -252,13 +252,13 @@ def subjectProfile(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
     feedbacks = Feedback.objects.filter(subject=subject)
     average_stars = calculate_average_stars(feedbacks)
-    related_teachers = list(set(feedback.teachers.name for feedback in feedbacks if feedback.teachers is not None))
+    related_teachers = list(set(feedback.teachers.name for feedback in feedbacks if feedback.teachers is not None)) # Front subject profile
     if not related_teachers:
-        related_teachers = ["Nenhum professor relacionado"]
+        related_teachers = ["Nenhum professor relacionado"] # Front subject profile
     context = {
         'subject': subject,
         'feedbacks': feedbacks,
-        'related_teachers': related_teachers,
+        'related_teachers': related_teachers, # Front subject profile
         'average_stars': average_stars
     }
     return render(request, 'reviews/subject_profile.html', context)
