@@ -273,7 +273,7 @@ def userProfile(request, pk):
     }
     return render(request, 'reviews/user_profile.html', context)
 
-# Back do Forum
+# Back do Forum (EXTRA)
 @login_required
 def upvote(request, message_id):
     message = get_object_or_404(Messages, id=message_id)
@@ -292,7 +292,7 @@ def upvote(request, message_id):
 
     return redirect('feedback', pk=feedback.id)
 
-# Back do Forum
+# Back do Forum (EXTRA)
 @login_required
 def downvote(request, message_id):
     message = get_object_or_404(Messages, id=message_id)
