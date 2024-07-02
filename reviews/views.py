@@ -236,13 +236,13 @@ def teacherProfile(request, pk):
     teacher = get_object_or_404(Teacher, pk=pk)
     feedbacks = Feedback.objects.filter(teachers=teacher)
     average_stars = calculate_average_stars(feedbacks)
-    related_disciplines = list(set(feedback.subject.name for feedback in feedbacks if feedback.subject is not None))
+    related_disciplines = list(set(feedback.subject.name for feedback in feedbacks if feedback.subject is not None)) # Front teacher profile
     if not related_disciplines:
-        related_disciplines = ["Nenhuma matéria relacionada"]  # Essa foi a principal mudança do commit do front teacher profile
+        related_disciplines = ["Nenhuma matéria relacionada"]  # Front teacher profile
     context = {
         'teacher': teacher,
         'feedbacks': feedbacks,
-        'related_disciplines': related_disciplines,  # Essa foi a principal mudança do commit do front teacher profile
+        'related_disciplines': related_disciplines,  # Front teacher profile
         'average_stars': average_stars
     }
     return render(request, 'reviews/teacher_profile.html', context)
