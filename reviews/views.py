@@ -225,7 +225,7 @@ def createTeacher(request):
     return render(request, 'reviews/subject_form.html', context)
 
 
-def calculate_average_stars(feedbacks):
+def calculate_average_stars(feedbacks):  # Back do feedback
     stars = [feedback.stars for feedback in feedbacks if feedback.stars is not None]
     if stars:
         return round(sum(stars) / len(stars), 2)
@@ -235,7 +235,7 @@ def calculate_average_stars(feedbacks):
 def teacherProfile(request, pk):
     teacher = get_object_or_404(Teacher, pk=pk)
     feedbacks = Feedback.objects.filter(teachers=teacher)
-    average_stars = calculate_average_stars(feedbacks)
+    average_stars = calculate_average_stars(feedbacks) # Back do feedback
     related_disciplines = list(set(feedback.subject.name for feedback in feedbacks if feedback.subject is not None)) # Front teacher profile
     if not related_disciplines:
         related_disciplines = ["Nenhuma matéria relacionada"]  # Front teacher profile
@@ -251,7 +251,7 @@ def teacherProfile(request, pk):
 def subjectProfile(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
     feedbacks = Feedback.objects.filter(subject=subject)
-    average_stars = calculate_average_stars(feedbacks)
+    average_stars = calculate_average_stars(feedbacks) # Back do feedback
     related_teachers = list(set(feedback.teachers.name for feedback in feedbacks if feedback.teachers is not None)) # Front subject profile
     if not related_teachers:
         related_teachers = ["Nenhum professor relacionado"] # Front subject profile
