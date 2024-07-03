@@ -1,8 +1,8 @@
 
-# Puccompass - A Forum Platform for Students to know more about their studies
+# Pucompass - A Forum Platform for Students to know more about their studies
 
 ## Description
-Puccompass is a forum web application inspired by platforms like Reddit, developed as a group project for the Software Engineering discipline at PUC-Rio. The application is built using Django for the backend, SQLite for the database, and HTML and CSS for the frontend. The primary goal of Puccompass is to facilitate academic discussions and feedback among students and teachers, enhancing the educational experience.
+Pucompass is a forum web application inspired by platforms like Reddit, developed as a group project for the Software Engineering discipline at PUC-Rio. The application is built using Django for the backend, SQLite for the database, and HTML and CSS for the frontend. The primary goal of Puccompass is to facilitate academic discussions and feedback among students and teachers, enhancing the educational experience.
 ![image](https://github.com/miguelthemigs/pucompass/assets/93150152/4842ff02-813a-4d4c-ab1c-f3dfac019391)
 
 ## Features
