@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .entities import Subject, Teacher
 
 
+# PEP-257
 class Feedback(models.Model):
     """
     Model representing feedback for a subject or teacher.
