@@ -21,7 +21,10 @@ Puccompass is a forum web application inspired by platforms like Reddit, develop
 
 ### Post Types
 - **Topic-Specific Posts**: Users can create posts linked to specific teachers or disciplines, facilitating focused discussions.
+![image](https://github.com/miguelthemigs/pucompass/assets/93150152/37d1947e-01c8-48f4-8783-3ef92dea36f7)
+
 - **Off-Topic Posts**: Users can also create posts that are not tied to any teacher or discipline, allowing for broader discussions.
+![image](https://github.com/miguelthemigs/pucompass/assets/93150152/5713eafe-29c0-4c5b-b776-b47220b0abe5)
 
 ### Interaction
 - **Feedback and Replies**: Users can respond to posts and provide feedback. This interaction supports a dynamic and engaging discussion environment.
