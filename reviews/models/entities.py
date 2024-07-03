@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 
 
+# PEP-257
 class Subject(models.Model):
     """
     Model representing a school subject.
