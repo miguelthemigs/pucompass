@@ -36,29 +36,6 @@ Puccompass is a forum web application inspired by platforms like Reddit, develop
 - **Database**: SQLite
 - **Frontend**: HTML, CSS
 
-## Installation and Setup
-1. **Clone the Repository**:
-   \`\`\`bash
-   git clone https://github.com/yourusername/Puccompass.git
-   \`\`\`
-2. **Navigate to the Project Directory**:
-   \`\`\`bash
-   cd Puccompass
-   \`\`\`
-3. **Install Dependencies**:
-   \`\`\`bash
-   pip install -r requirements.txt
-   \`\`\`
-4. **Run Migrations**:
-   \`\`\`bash
-   python manage.py migrate
-   \`\`\`
-5. **Start the Development Server**:
-   \`\`\`bash
-   python manage.py runserver
-   \`\`\`
-6. **Access the Application**: Open your browser and go to \`http://127.0.0.1:8000\`
-
 ## Usage
 1. **Register and Login**: Create a user account and log in to access the full functionality of the platform.
 2. **Create Profiles**: Teachers can create their profiles and disciplines can be added to the database.
