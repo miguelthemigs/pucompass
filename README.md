@@ -35,6 +35,7 @@ Pucompass is a forum web application inspired by platforms like Reddit, develope
 - **Backend**: Django
 - **Database**: SQLite
 - **Frontend**: HTML, CSS
+- **Testing**: Django Unit Testing
 
 ## Usage
 1. **Register and Login**: Create a user account and log in to access the full functionality of the platform.
