@@ -30,9 +30,10 @@ class FeedbackForm(forms.ModelForm):
 
         # Check if both subject and teachers are not provided
         if not subject and not teachers:
-            raise forms.ValidationError('At least one of Subject or Teachers is required.')
+            raise forms.ValidationError('Subject or Teachers required.')
 
         return cleaned_data
+
 
 # Back do Forum
 class ForumFeedbackForm(forms.ModelForm):

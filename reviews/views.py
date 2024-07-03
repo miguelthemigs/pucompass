@@ -25,7 +25,6 @@ def home(request):
         'feedbacks': feedbacks,
         'messages': Messages.objects.filter(feedback__title__icontains=q)
     }
-
     return render(request, 'reviews/home.html', context)
 
 
@@ -69,9 +68,9 @@ def loginPage(request):
         except User.DoesNotExist:
             messages.error(request, "User does not exist")
 
-        user = authenticate(request, username=username, password=password)  # will return error, or if match, return a user object
+        user = authenticate(request, username=username, password=password)
         if user:
-            login(request, user)  # add a user in the session, and logs it in
+            login(request, user)
             return redirect('home')
         else:
             messages.error(request, "Username or password does not exist")
@@ -91,7 +90,7 @@ def registerPage(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)  # we save the form to access the user
+            user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
             login(request, user)
@@ -111,7 +110,6 @@ def createFeedback(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
 
-        # Set the host field to the current user
         if form.is_valid():
             feedback = form.save(commit=False)
             feedback.author = request.user
@@ -123,12 +121,12 @@ def createFeedback(request):
     context = {'form': form}
     return render(request, 'reviews/feedback_form.html', context)
 
+
 # Back do Forum
 def createForumFeedback(request):
     if request.method == 'POST':
         form = ForumFeedbackForm(request.POST)
 
-        # Set the host field to the current user
         if form.is_valid():
             feedback = form.save(commit=False)
             feedback.author = request.user
@@ -151,13 +149,10 @@ def deleteMessage(request, pk):
 
     if request.method == 'POST':
         message.delete()
-
-        # Check if the user has any remaining messages in the feedback
-        remaining_messages = Messages.objects.filter(feedback=feedback, author=request.user).exists()
-
+        remaining_messages = Messages.objects.filter(feedback=feedback,
+                                                     author=request.user).exists()
         if not remaining_messages:
             feedback.participants.remove(request.user)
-
         return redirect('feedback', pk=feedback.id)
 
     return render(request, 'reviews/delete.html', {'obj': message})
@@ -180,15 +175,13 @@ def deleteFeedback(request, pk):
 @login_required(login_url='login')
 def updateMessage(request, pk):
     message = get_object_or_404(Messages, id=pk)
-    form = MessageForm(instance=message)  # we prefill with the value of the room
+    form = MessageForm(instance=message)
 
     if request.user != message.author and not request.user.is_staff:
         return HttpResponse('Your are not allowed to update this message')
 
     if request.method == 'POST':
         form = MessageForm(request.POST, instance=message)
-        # it initializes a new MessageForm instance with the data from the submitted form (request.POST) and associates it with the existing message instance
-
         if form.is_valid():
             form.save()
             return redirect('feedback', pk=message.feedback.id)
@@ -202,9 +195,8 @@ def createSubject(request):
 
     if request.method == 'POST':
         form = SubjectForm(request.POST)
-
         if form.is_valid():
-            subject = form.save()
+            form.save()
             return redirect('home')
 
     context = {'form': form}
@@ -216,16 +208,15 @@ def createTeacher(request):
 
     if request.method == 'POST':
         form = TeacherForm(request.POST)
-
         if form.is_valid():
-            teacher = form.save()
+            form.save()
             return redirect('home')
 
     context = {'form': form}
     return render(request, 'reviews/subject_form.html', context)
 
 
-def calculate_average_stars(feedbacks):  # Back do feedback
+def calculate_average_stars(feedbacks):
     stars = [feedback.stars for feedback in feedbacks if feedback.stars is not None]
     if stars:
         return round(sum(stars) / len(stars), 2)
@@ -235,14 +226,16 @@ def calculate_average_stars(feedbacks):  # Back do feedback
 def teacherProfile(request, pk):
     teacher = get_object_or_404(Teacher, pk=pk)
     feedbacks = Feedback.objects.filter(teachers=teacher)
-    average_stars = calculate_average_stars(feedbacks) # Back do feedback
-    related_disciplines = list(set(feedback.subject.name for feedback in feedbacks if feedback.subject is not None)) # Front teacher profile
+    average_stars = calculate_average_stars(feedbacks)
+    related_disciplines = list(set(
+        feedback.subject.name for feedback in feedbacks if feedback.subject is not None
+    ))
     if not related_disciplines:
-        related_disciplines = ["Nenhuma matéria relacionada"]  # Front teacher profile
+        related_disciplines = ["Nenhuma matéria relacionada"]
     context = {
         'teacher': teacher,
         'feedbacks': feedbacks,
-        'related_disciplines': related_disciplines,  # Front teacher profile
+        'related_disciplines': related_disciplines,
         'average_stars': average_stars
     }
     return render(request, 'reviews/teacher_profile.html', context)
@@ -251,14 +244,16 @@ def teacherProfile(request, pk):
 def subjectProfile(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
     feedbacks = Feedback.objects.filter(subject=subject)
-    average_stars = calculate_average_stars(feedbacks) # Back do feedback
-    related_teachers = list(set(feedback.teachers.name for feedback in feedbacks if feedback.teachers is not None)) # Front subject profile
+    average_stars = calculate_average_stars(feedbacks)
+    related_teachers = list(set(
+        feedback.teachers.name for feedback in feedbacks if feedback.teachers is not None
+    ))
     if not related_teachers:
-        related_teachers = ["Nenhum professor relacionado"] # Front subject profile
+        related_teachers = ["Nenhum professor relacionado"]
     context = {
         'subject': subject,
         'feedbacks': feedbacks,
-        'related_teachers': related_teachers, # Front subject profile
+        'related_teachers': related_teachers,
         'average_stars': average_stars
     }
     return render(request, 'reviews/subject_profile.html', context)
@@ -273,40 +268,42 @@ def userProfile(request, pk):
     }
     return render(request, 'reviews/user_profile.html', context)
 
-# Back do Forum (EXTRA)
+
 @login_required
 def upvote(request, message_id):
     message = get_object_or_404(Messages, id=message_id)
     feedback = message.feedback
     user = request.user
 
-    # Check if the user has already upvoted the message
-    existing_vote = Vote.objects.filter(user=user, message=message, vote_type='up').first()
+    existing_vote = Vote.objects.filter(user=user,
+                                        message=message,
+                                        vote_type='up').first()
 
     if existing_vote:
-        # If an upvote already exists, remove it (toggle behavior)
         existing_vote.delete()
     else:
-        # Otherwise, add an upvote
-        Vote.objects.update_or_create(user=user, message=message, defaults={'vote_type': 'up'})
+        Vote.objects.update_or_create(user=user,
+                                      message=message,
+                                      defaults={'vote_type': 'up'})
 
     return redirect('feedback', pk=feedback.id)
 
-# Back do Forum (EXTRA)
+
 @login_required
 def downvote(request, message_id):
     message = get_object_or_404(Messages, id=message_id)
     feedback = message.feedback
     user = request.user
 
-    # Check if the user has already downvoted the message
-    existing_vote = Vote.objects.filter(user=user, message=message, vote_type='down').first()
+    existing_vote = Vote.objects.filter(user=user,
+                                        message=message,
+                                        vote_type='down').first()
 
     if existing_vote:
-        # If a downvote already exists, remove it (toggle behavior)
         existing_vote.delete()
     else:
-        # Otherwise, add a downvote
-        Vote.objects.update_or_create(user=user, message=message, defaults={'vote_type': 'down'})
+        Vote.objects.update_or_create(user=user,
+                                      message=message,
+                                      defaults={'vote_type': 'down'})
 
     return redirect('feedback', pk=feedback.id)
